@@ -1,4 +1,4 @@
-# E-BANKING
+# WALLET SYSTEM
 
 Create a server that:
 - allows admin 
@@ -12,25 +12,26 @@ Create a server that:
     - to make transfers 
     - to make deposits/withdrawals
     - to get Transaction history
-- allows Wallet
-    - Users easily manage their wallets
-    -  
+- allows Easy Wallet Management
+    - Users easily control the flow of transactions 
 
 ## Banking Entities
-- Users
-- Wallets
+- Admin
+- User
+- Wallet
 - Deposit
-- Withdrawal
+- Withdraw
 - Transfer
 
 ### USERS
+- UserId
 - firstname
 - lastname
-- dateOfBirth
-- gender
-- UserId
+- email
+- walletIds
 
 #### WALLET
+- walletId
 - walletName
 - currencyName
 - balance
@@ -38,10 +39,26 @@ Create a server that:
 
 ##### DEPOSIT
 - depositId
+- destination -> walletId
 - dateOfTransaction
 - amount
-- 
-##### WITHDRAWAL
 
+##### WITHDRAW
+- withdrawId
+- source -> walletId
+- dateOfTransaction
+- amount
 
+##### TRANSFER
+- transferId 
+- walletId(receiver) -> walletId(receiver)
+- dateOfTransaction
+- amount
 
+## AUTHENTICATION 
+-   
+-   
+
+## DOCUMENTATION OF API  
+-   
+-   
