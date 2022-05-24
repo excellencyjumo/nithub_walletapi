@@ -1,4 +1,4 @@
-const Wallet = require('Wallet')
+const Wallet = require('./Wallet')
 class User{
     constructor(userId,fName,lName,email){
         this.userId=userId;
