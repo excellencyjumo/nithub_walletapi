@@ -1,0 +1,19 @@
+{
+  "name": "wallet_api",
+  "version": "1.0.0",
+  "description": "to manage account for users",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Wallet Api"
+  },
+  "author": "Adejumo",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
