@@ -55,6 +55,13 @@ Create a server that:
 - dateOfTransaction
 - amount
 
+## ROUTES
+User
+- /
+
+Wallet
+- /
+
 ## AUTHENTICATION 
 -   
 -   
@@ -62,3 +69,6 @@ Create a server that:
 ## DOCUMENTATION OF API  
 -   
 -   
+
+## RESTFUL API 
+- GET PUT POST PATCH DELETE
