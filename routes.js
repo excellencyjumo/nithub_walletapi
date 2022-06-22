@@ -17,9 +17,9 @@ router.get('/ping', (req, res) => {
 // users
 const userController = new UserController();
 router.post('/auth/users', userController.createUser);
-router.get('/auth/users/:id', userController.getUserByID);
-router.get('/users/:userID/wallets', userController.getWallets);
-router.put('/users/:userID/wallets', userController.registerWallet);
+router.get('/auth/users/login',userController.loginUser);
+router.get('/users/:userID/wallets', userController.getAllWallets);
+router.put('/users/:userID/wallets', userController.createWallet);
 router.delete('/users/:userID/wallets/:walletID', userController.deleteWallet);
 
 // wallets

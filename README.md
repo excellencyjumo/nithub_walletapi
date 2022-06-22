@@ -3,72 +3,166 @@
 Create a server that:
 - allows admin 
     - to register Users
-    - to create wallets
-    - to manage Users account
+    - to create wallets 
+    - to manage Users authentication
 - allows Users 
-    - to manage accounts/balances
-    - to register for wallets 
-    - to close down wallets 
+    - to manage wallets
+    - to open wallets 
+    - to close wallets 
+    ## WALLET MANAGEMENT  
     - to make transfers 
     - to make deposits/withdrawals
     - to get Transaction history
-- allows Easy Wallet Management
-    - Users easily control the flow of transactions 
 
 ## Banking Entities
 - Admin
 - User
 - Wallet
-- Deposit
-- Withdraw
-- Transfer
+- Transaction
 
 ### USERS
 - UserId
-- firstname
-- lastname
+- UserName **firstName* **lastName*
 - email
-- walletIds
+- password
+- wallets
+
 
 #### WALLET
 - walletId
-- walletName
 - currencyName
-- balance
-- transactionHistory
+##### LINKED WALLET
+- userId
+- amount
 
-##### DEPOSIT
-- depositId
+##### TRANSACTION
+- type: “deposit” | “withdrawal” | “transfer”
+- details: Deposit | Withdrawal | Transfer
+
+##### DEPOSIT DETAILS
+- depositId (string)
 - destination -> walletId
 - dateOfTransaction
 - amount
 
-##### WITHDRAW
-- withdrawId
+##### WITHDRAW DETAILS
+- withdrawId (string)
 - source -> walletId
 - dateOfTransaction
 - amount
 
-##### TRANSFER
-- transferId 
-- walletId(receiver) -> walletId(receiver)
+##### TRANSFER DETAILS
+- transferId (string)
+- walletId(sender) ->  walletId(receiver)
 - dateOfTransaction
 - amount
-
+........................................................................................................................................................................................................................................
 ## ROUTES
-User
-- /
+- RESTFUL-API  *** PUT GET POST DELETE
+### Auth
+- POST /auth/users
+Request
+    email: string;
+    password: string;
+Response
+    status: string;
+    data: Object
+        token: string;
 
-Wallet
-- /
+- POST /auth/users/login
+Request
+    email: string;
+    password: string;
+Response
+    status: string;
+    data: Object
+        token: string;
 
-## AUTHENTICATION 
--   
--   
+### Wallets
+- POST /wallets
+Request
+    currency: string;
+Response
+    status: string;
+    data: Wallet;
 
-## DOCUMENTATION OF API  
--   
--   
+- GET /wallets
+Response
+    status: string;
+    data: Wallet[];
 
-## RESTFUL API 
-- GET PUT POST PATCH DELETE
+- GET /wallets/:id
+Response
+    status: string;
+    data: Wallet;
+
+DELETE /wallets/:id
+Response
+    status: string;
+
+### Deposits
+- POST /wallets/:id/deposits
+Request
+    amount: number;
+Response
+    status: string;
+    data: Wallet;
+
+- GET /wallets/:id/deposits
+Response
+    status: string;
+    data: Deposit[];
+
+- GET /wallets/:wallet_id/deposits/:id
+Response
+    status: string;
+    data: Deposit;
+
+### Withdrawals
+- POST /wallets/:id/withdrawals
+Request
+    amount: number;
+Response
+    status: string;
+    data: Wallet;
+
+- GET /wallets/:id/withdrawals
+Response
+    status: string;
+    data: Withdrawal[];
+
+- GET /wallets/:wallet_id/withdrawals/:id
+Response
+    status: string;
+    data: Withdrawal;
+
+### Transfers
+- POST /wallets/:id/transfers
+Request
+    destination: Wallets.id;
+Response
+    status: string;
+    data: Wallet;
+
+- GET /wallets/:id/transfers
+Response
+    status: string;
+    data: Transfer[];
+
+- GET /wallets/:wallet_id/transfers/:id
+Response
+    status: string;
+    data: Transfer;
+
+### Transactions
+- GET /wallets/:wallet_id/transactions
+Response
+    status: string;
+    data: Transaction;
+
+- GET /wallets/:wallet_id/transactions/download
+Response: should initiate a file download
+
+### Extra features:
+- Users can download their transaction history as a PDF.
+- API DOCUMENTATION 

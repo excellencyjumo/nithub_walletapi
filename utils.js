@@ -1,7 +1,6 @@
-exports.sendResponse = (res, status, message, data) => {
+exports.sendResponse = (res, status, data) => {
     res.status(status).json({
       status,
-      message,
       data
     });
   };
