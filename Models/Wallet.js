@@ -5,7 +5,7 @@ class Wallet {
   constructor(currency) {
     this.id = id++;
     this.currency = currency;
-    this.amount = 0;
+    this.amount = null;
   }
 
   toJSON() {

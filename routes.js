@@ -7,13 +7,6 @@ const TransferController = require('./Controllers/TransferController.js');
 
 const router = express.Router();
 
-router.get('/ping', (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: 'Pong!'
-  });
-});
-
 // users
 const userController = new UserController();
 router.post('/auth/users', userController.createUser);
@@ -47,6 +40,5 @@ const transferController = new TransferController();
 router.post('/wallets/:id/transfers', transferController.makeTransfer);
 router.get('/wallets/:id/transfers', transferController.getAllTransfers);
 router.get('/wallets/:wallet_id/transfers/:id', transferController.getTransferByID);
-
 
 module.exports = router;
