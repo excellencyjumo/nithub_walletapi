@@ -1,0 +1,10 @@
+## Create a new user
+POST http://localhost:8080/auth/users
+Content-Type: application/json
+
+{
+  "firstName": "Adejumo",
+  "lastName": "Damola",
+  "email": "devbotProgrammer@gmail,com",
+  "password": "mypassword"
+}

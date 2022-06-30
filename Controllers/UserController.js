@@ -1,6 +1,7 @@
 const User = require('../Models/User');
-const { sendResponse } = require('../utils');
+const { sendResponse} = require('../utils');
 const { hash } = require('bcrypt');
+const Wallet = require("../Models/Wallet");
 
 class UserController{
     constructor(){}
@@ -24,7 +25,9 @@ class UserController{
 
             user = result[0];
 
-            await user.generateAuthToken();
+            const token = await user.generateAuthToken();
+
+            res.header('x-auth-token', token);
 
             sendResponse(res, 201,"Registration successful", user.toJSON());
         }catch (e) {
@@ -33,37 +36,29 @@ class UserController{
         }
     }
 
-    loginUser(req, res) {
+    async loginUser(req, res) {
+
       const { email, password } = req.body;
-  
-      const user = User.getByEmail(email);
-      if (user) {
-        sendResponse(res, 200, 'User was found', user.toJSON());
-      } else {
-        sendResponse(res, 404, `User with id "${id}" was not found`);
+
+      let user = await User.getByEmail(email);
+      if (!user){
+          sendResponse(res, 404, "User is not authenticated", {});
+          return;
       }
+
+      user = user[0];
+
+      const isValid = await user.comparePassword(password);
+      if (!isValid){
+          sendResponse(res, 400, "Invalid email or password", {});
+          return;
+      }
+
+      const token = await user.generateAuthToken();
+      res.header('x-auth-token', token);
+
+      sendResponse(res, 200, "Here you go", user.toJSON())
     }
-    createWallet(req, res) {
-        const { userId , walletId } = req.body;
-        const user = User.getByID(+userId);
-        if (user) {
-          const currency = Wallet.getByID(+walletId);
-          if (!currency) {
-            sendResponse(res, 404, "Wallet hasn't been created for use yet");
-            return;
-          }
-    
-          const hasCurrencyWallet = user.wallets.includes(currency);
-          if (hasCurrencyWallet) {
-            sendResponse(422, 'User cant have duplicate currency account');
-          } else {
-            user.currency.push(currency);
-            sendResponse(200, 'Wallet was registered successfully');
-          }
-        } else {
-          sendResponse(404, 'User does not exist');
-        }
-      }
     
       getAllWallets(req, res) {
         const { userID } = req.body;
