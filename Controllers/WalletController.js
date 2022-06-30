@@ -5,13 +5,21 @@ class WalletController {
   constructor() {}
 
   async createWallet(req, res) {
+    const user = req.user;
+
     const { currency } = req.body;
-    try {
-      const newWallet = await Wallet.create(currency);
-      sendResponse(res, 201, "Wallet was created successfully", newWallet.toJSON());
-    } catch (err) {
-      sendResponse(res, 500, "An error occured while creating a new wallet");
+
+    try{
+      let wallet = new Wallet(currency, user.id);
+
+      wallet = await wallet.save();
+
+      sendResponse(res, 201, "Here you go", wallet);
+    }catch (err){
+      console.log(err);
+      sendResponse(res, 500, "An error occurred try again", {});
     }
+
   }
 
   // /courses/:id -> /courses/44
