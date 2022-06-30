@@ -25,9 +25,15 @@ class TransferController {
                             ? await getConversion(sourceWallet.currency, destinationWallet.currency, +amount)
                             : "";
 
-            let {conversionRate, convertedAmount} = typeof response === 'object'
-                ? { conversionRate: response.info.rate,  convertedAmount: response.value }
-                : { conversionRate: 1, convertedAmount: +amount };
+            let conversionRate;
+            let convertedAmount;
+            if(typeof response === "object"){
+                conversionRate = response.info.rate;
+                convertedAmount = response.value;
+            }else{
+                conversionRate = 1;
+                convertedAmount = +amount;
+            }
 
 
             const transfer = new Transfer(convertedAmount, conversionRate , sourceWallet, destinationWallet);
