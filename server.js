@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./database/database');
+const { connectToDB } = require('./database');
 const router = require('./routes');
 
 const server = express();
@@ -12,12 +12,15 @@ server.use((req, _res, next) => {next(new Error(`Could not handle request to ${r
 server.use((err, _req, res, _next) => {res.status(404).json({status: 404,message: err.toString(),});});
 
 const port = 8080;
-db.connect((err) => {
-  if (err) {
-    console.log("could not connect to the database");
-  } else {
-    server.listen(port, () => {
-      console.log('server running on port %s', port);
-    });
-  }
-});
+
+connectToDB()
+    .then(() => {
+      console.log("Database connection established");
+      server.listen(port, () => {
+        console.log('server running on port %s', port);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      process.exit(1);
+    })

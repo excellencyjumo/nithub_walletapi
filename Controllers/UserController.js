@@ -1,25 +1,36 @@
-const User = require('../Models/User') 
-const Wallet = require("../Models/Wallet")
-const {users} =require('../database/data')
+const User = require('../Models/User');
 const { sendResponse } = require('../utils');
+const { hash } = require('bcrypt');
 
 class UserController{
     constructor(){}
 
-    createUser(req,res){
-        const body = req.body;
-        const existingUser = User.findByFirstName(body.firstname);
-        if (existingUser) {
-            sendResponse(res, 400, 'Firstname already exists');
-            return;
+    async createUser(req,res){
+        const { firstName, lastName, email, password } = req.body;
+
+        try{
+            const userExists = await User.findByFirstName(firstName);
+
+            if (userExists) {
+                sendResponse(res, 400, 'Firstname already exists', {});
+                return;
+            }
+
+            const hashPassword = await hash(password, 11);
+
+            let user = new User(firstName, lastName, email, hashPassword);
+
+            const result = await user.save();
+
+            user = result[0];
+
+            await user.generateAuthToken();
+
+            sendResponse(res, 201,"Registration successful", user.toJSON());
+        }catch (e) {
+            console.log(e);
+            sendResponse(res, 500, "An error occurred while creating user", {});
         }
-        const newUser = new User(body.firstName,body.lastName,body.email)
-        users.push(newUser);
-        res.status(201).json({
-            status:201,
-            data:newUser,
-        })
-        sendResponse(res, 201, newUser.toJSON());
     }
 
     loginUser(req, res) {

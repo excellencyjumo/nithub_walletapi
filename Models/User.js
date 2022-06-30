@@ -1,23 +1,66 @@
-const { users } = require('../db/data');
-const { userdb } = require('../database/database')
+const { connection } = require('../database')
+const { v4: uuidv4 } = require('uuid');
+const {sign} = require("jsonwebtoken");
+const {JWT} = require("../config");
 
-let userId = 0;
 class User {
-  constructor(firstname, lastname, email) {
-    this.id = userId++;
+
+  constructor(firstname, lastname, email, password) {
+    this.id = uuidv4().toString();
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
-    this.wallets = [];
+    this.password = password;
   }
+
+
 
   toJSON() {
     return {
       id: this.id,
       firstname: this.firstname,
       lastname: this.lastname,
-      wallets: this.wallets
+      email: this.email,
+      token: this.token
     };
+  }
+
+
+  static transform(array){
+    return array.map(value => {
+      const user = new User(value.firstname, value.lastname, value.email, value.password);
+      user.id = value.id;
+      return user;
+    })
+  }
+
+  generateAuthToken(){
+    const token = sign({ id: this.id }, JWT.ACCESS_TOKEN_SECRET, {
+      expiresIn: JWT.tokenLifeSpan
+    });
+
+    this.token = token;
+    return token;
+  }
+
+  save(){
+    const statement = `INSERT INTO users (id, firstname, lastname, email, password) 
+                       VALUES (?, ?, ?, ?, ?)`;
+    const values = [this.id, this.firstname, this.lastname, this.email, this.password];
+
+    return new Promise((resolve, reject) => {
+      connection.query(statement, values, async (err, results) => {
+        if (err){
+          console.log(err);
+          reject(err);
+        }else{
+          let user = await User.findByFirstName(this.firstname);
+          const result = User.transform(user);
+          resolve(result);
+        }
+      });
+    });
+
   }
 
   static getByEmail(email) {
@@ -29,8 +72,26 @@ class User {
   }
 
   static findByFirstName(firstname) {
-    return users.find((user) => user.firstname === firstname);
+    const statement = "SELECT * FROM users WHERE firstname = ?";
+
+    return new Promise((resolve, reject) => {
+      connection.query(statement, firstname, (err, results) => {
+          if (err){
+            console.log(err);
+            reject(err);
+          }else if(results.length === 0){
+            resolve(null)
+          }else{
+            resolve(results);
+          }
+      });
+    })
+
   }
+
+
 }
+
+User.prototype.toJSON();
 
 module.exports = User;
