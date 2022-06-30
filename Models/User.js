@@ -1,5 +1,6 @@
 const { connection } = require('../database')
 const { v4: uuidv4 } = require('uuid');
+const { compare } = require('bcrypt');
 const {sign} = require("jsonwebtoken");
 const {JWT} = require("../config");
 
@@ -14,6 +15,9 @@ class User {
   }
 
 
+  comparePassword(password){
+    return compare(password, this.password);
+  }
 
   toJSON() {
     return {
@@ -64,7 +68,21 @@ class User {
   }
 
   static getByEmail(email) {
-    return users.find((user) => user.email === email);
+    const statement = "SELECT * FROM users WHERE email = ?";
+
+    return new Promise((resolve, reject) => {
+      connection.query(statement, email, (err, results) => {
+        if (err){
+          console.log(err);
+          reject(err);
+        }else if (results.length === 0){
+          resolve(null);
+        }else{
+          const result = User.transform(results);
+          resolve(result);
+        }
+      })
+    })
   }
 
   static getByID(id) {
@@ -76,14 +94,32 @@ class User {
 
     return new Promise((resolve, reject) => {
       connection.query(statement, firstname, (err, results) => {
-          if (err){
-            console.log(err);
-            reject(err);
-          }else if(results.length === 0){
-            resolve(null)
-          }else{
-            resolve(results);
-          }
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else if (results.length === 0) {
+          resolve(null)
+        } else {
+          resolve(results);
+        }
+      });
+    })
+  }
+
+  static findById(id)
+  {
+    const statement = "SELECT * FROM users WHERE id = ?";
+
+    return new Promise((resolve, reject) => {
+      connection.query(statement, id, (err, results) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else if (results.length === 0) {
+          resolve(null)
+        } else {
+          resolve(results);
+        }
       });
     })
 
@@ -93,5 +129,6 @@ class User {
 }
 
 User.prototype.toJSON();
+User.prototype.comparePassword;
 
 module.exports = User;
