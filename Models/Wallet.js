@@ -117,12 +117,17 @@ class Wallet {
   }
 
   static deleteByID(id) {
-    const walletIndex = wallets.findIndex((wallet) => wallet.id === id);
-    if (walletIndex === -1) {
-      return false;
-    }
-    wallets.splice(walletIndex, 1);
-    return true;
+    const statement = "DELETE FROM wallets WHERE id = ?";
+
+    return new Promise((resolve, reject) => {
+      connection.query(statement, id, (err, result) => {
+        if (err){
+          reject(err);
+        }else{
+          resolve(result.affectedRows > 0);
+        }
+      });
+    });
   }
 }
 

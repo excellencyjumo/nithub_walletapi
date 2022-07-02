@@ -38,6 +38,10 @@ class WalletController {
 
   async getWalletByID(req, res) {
     const id = req.params.id;
+    const user = req.user;
+
+    if (user.id !== id) return sendResponse(res, 404, `Wallet with id ${id} not found`);
+
 
     try{
       const wallet = await Wallet.findById(id);
@@ -48,6 +52,23 @@ class WalletController {
       sendResponse(res, 500, "An error occurred",{});
     }
 
+  }
+
+  async deleteWallet(req, res) {
+    const { id } = req.params;
+    const user = req.user;
+
+    if (user.id !== id) return sendResponse(res, 404, `Wallet with id ${id} not found`);
+
+
+    try{
+      const isSuccessful = await Wallet.deleteByID(id);
+      if (!isSuccessful) return sendResponse(res, 404, `Wallet with id ${id} does not exists`);
+      sendResponse(res, 200, "Wallet deleted successfully", {});
+    }catch (e){
+      console.log(e);
+      sendResponse(res, 500, "An error occurred", {});
+    }
   }
 
 }
