@@ -4,7 +4,7 @@ const logger = require("../config/winston");
 
 async function auth (req, res, next){
     try{
-        
+
         const token = req.header('x-auth-token');
         if (!token) return sendResponse(res, 401, "Access denied");
 

@@ -10,6 +10,6 @@ walletRouter.get('/wallets', auth, walletController.getAllWallets);
 walletRouter.get('/wallets/:id', auth, walletController.getWalletByID);
 walletRouter.delete('/wallets/:id', auth, walletController.deleteWallet);
 walletRouter.get('/wallets/:id/transactions',walletController.getTransactions);
-// router.get('/wallets/:id/transactions/download',walletController.getTransactionsAsPDF)
+// router.get('/wallets/:id/transactions/download', auth, walletController.getTransactionsAsPDF)
 
 module.exports = walletRouter;
