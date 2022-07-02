@@ -5,6 +5,8 @@ const app = require('./app');
 
 const server = express();
 
+server.use(app);
+
 connectToDB()
     .then(() => {
 

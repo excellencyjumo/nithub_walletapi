@@ -18,15 +18,6 @@ class Wallet {
     };
   }
 
-  static transform(array){
-    return array.map(value => {
-      const wallet = new Wallet(value.currency, value.user_id);
-      wallet.id = value.id;
-      wallet.amount = value.amount;
-      return wallet;
-    })
-  }
-
   updateById(){
     const statement = `UPDATE wallets SET amount = ? WHERE id = ? `;
     const values = [this.amount, this.id];
@@ -62,6 +53,15 @@ class Wallet {
     });
   }
 
+  static transform(array){
+    return array.map(value => {
+      const wallet = new Wallet(value.currency, value.user_id);
+      wallet.id = value.id;
+      wallet.amount = value.amount;
+      return wallet;
+    })
+  }
+
   static findById(id){
     const statement = "SELECT * FROM wallets WHERE id = ?";
 
@@ -75,26 +75,6 @@ class Wallet {
         }else {
           const wallet = this.transform(result);
           resolve(wallet[0]);
-        }
-      });
-    });
-  }
-
-  static getByCurrency(id) {
-    const query = `SELECT * FROM wallets WHERE id="${id}"`;
-    return new Promise((resolve, reject) => {
-      db.query(query, (err, results) => {
-        if (err) {
-          reject(err);
-        } else {
-          if (results.length === 0) {
-            resolve(null);
-          } else {
-            const res = results[0];
-            const wallet = new Wallet(res.currency);
-            wallet.id = res.id;
-            resolve(wallet);
-          }
         }
       });
     });

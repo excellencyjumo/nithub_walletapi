@@ -4,8 +4,8 @@ const { transports, createLogger } = require('winston');
 const options = {
     file: {
         level: 'error',
-        filename: 'errorlog.txt',
-        dirname: '/src/logs',
+        filename: 'error.txt',
+        dirname: './src/logs',
         datetime: 'YYYY-MM-DD',
         colorize: false,
         handleExceptions: true,
