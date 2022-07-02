@@ -100,20 +100,17 @@ class Wallet {
     });
   }
 
-  static getAll() {
-    const query = `SELECT * FROM wallets`;
+  static findByUserId(id) {
+    const statement = `SELECT * FROM wallets where user_id = ?`;
     return new Promise((resolve, reject) => {
-      db.query(query, (err, results) => {
+      connection.query(statement, id, (err, results) => {
         if (err) {
           reject(err);
-        } else {
-          const models = results.map((res) => {
-            const wallet = new Wallet(res.currency);
-            wallet.id = res.id;
-            wallet.amount=res.amount;
-            return wallet;
-          });
-          resolve(models);
+        } else if(results.length === 0){
+          resolve(null);
+        }else {
+          const wallets = this.transform(results);
+          resolve(wallets);
         }
       });
     });

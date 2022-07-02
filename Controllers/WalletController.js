@@ -22,51 +22,34 @@ class WalletController {
 
   }
 
-  // /courses/:id -> /courses/44
-  async getWalletByCurrency(req, res) {
-    const { currency } = req.params;
+  async getAllWallets(req, res) {
+    const user = req.user;
 
-    try {
-      const wallet = await Wallet.getByID(+id);
+    try{
+      const wallets = await Wallet.findByUserId(user.id);
+      if (!wallets) return sendResponse(res, 404, "You have no wallet", {});
 
-      if (!wallet) {
-        sendResponse(res, 404, `Wallet with currency "${currency}" was not found`);
-        return;
-      }
-      sendResponse(res, 200, "Wallet found", wallet.toJSON());
-    } catch (err) {
-      sendResponse(res, 500, "An error occured while creating a new wallet");
+      sendResponse(res, 200, "Here you go.", wallets);
+    }catch (e) {
+      console.log(e);
+      sendResponse(res, 500, "An error occurred", {});
     }
   }
 
-  async getAllCourses(req, res) {
-    try {
-      const wallets = await Wallet.getAll();
-      sendResponse(res, 200, "Courses fetched", wallets.map(wallet => wallet.toJSON()));
-    } catch (err) {
-      sendResponse(res, 500, "An error occured while fetching wallets");
+  async getWalletByID(req, res) {
+    const id = req.params.id;
+
+    try{
+      const wallet = await Wallet.findById(id);
+      if (!wallet) return sendResponse(res, 404, `Wallet with id ${id} does not exist`,{});
+      sendResponse(res, 200, "Here you go", wallet);
+    }catch(e){
+      console.log(e);
+      sendResponse(res, 500, "An error occurred",{});
     }
+
   }
 
-  deleteCourseByCurrency(req, res) {
-    const { currency } = req.params;
-
-    const existing = Wallet.getByCurrency(currency);
-
-    if (existing) {
-      Wallet.deleteByCurrency(currency);
-
-      res.status(200).json({
-        status: 200,
-        message: 'Wallet was deleted successfully'
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        message: 'Wallet was not found',
-      });
-    }
-  }
 }
 
 module.exports = WalletController;

@@ -12,17 +12,15 @@ const router = Router();
 const userController = new UserController();
 router.post('/auth/users', userController.createUser);
 router.post('/auth/users/login',userController.loginUser);
-// router.put('/users/:userID/wallets',  userController.createWallet);
-// router.get('/users/:userID/wallets', userController.getAllWallets);
-// router.delete('/users/:userID/wallets/:walletID', userController.deleteWallet);
 
 // wallets
 const walletController = new WalletController();
 router.post('/wallets', auth, walletController.createWallet);
-// router.get('/wallets', walletController.getAllWallets);
-// router.get('/wallets/:id', walletController.getWalletByID);
+router.get('/wallets', auth, walletController.getAllWallets);
+router.get('/wallets/:id', auth, walletController.getWalletByID);
 // router.delete('/wallets/:id', walletController.deleteWalletByID);
 // router.get('/wallets/:id/transactions/download',walletController.getTransactions)
+// router.delete('/users/:userID/wallets/:walletID', userController.deleteWallet);
 //
 // //deposit
 const depositController = new DepositController();
