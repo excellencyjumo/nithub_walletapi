@@ -116,6 +116,12 @@ Content-Type: application/json
 x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
 
 
+### Download transaction history
+GET http://localhost:8080/wallets/86c52191-d187-4afe-9047-c7639d5cd160/transactions/download
+#Content-Type: application/pdf
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
 ### Faraday x-auth-token
 ### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMWUwLTQxMTktNGNkNS1hNWJkLTc4ODUxY2U5ZDY4OSIsImlhdCI6MTY1Njc3MDg4OSwiZXhwIjoxNjU3Mzc1Njg5fQ.oQ9UKgXQB5hhC2ubuRV1kEzyZukzCGxkvR-cpsv3qIk
 

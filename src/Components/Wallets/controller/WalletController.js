@@ -4,6 +4,7 @@ const Deposit = require("../../Deposits/models/Deposit");
 const Withdrawal = require("../../Withdrawals/models/Withdrawal");
 const Transfer = require("../../Transfers/models/Transfer");
 const logger = require("../../../config/winston");
+const generatePDF = require('../../../services/pdfMaker');
 
 class WalletController {
 
@@ -88,23 +89,32 @@ class WalletController {
     }
   }
 
-  // async getTransactionsAsPDF(req, res) {
-  //   const { id } = req.params;
-  //
-  //   const transactions = {};
-  //
-  //   // work on the pdf service later
-  //
-  //   try{
-  //     transactions.deposits = await Deposit.getWalletDeposits(id) ?? "No deposits has been made";
-  //     transactions.withdraws = await Withdrawal.getWalletWithdrawals(id) ?? "No withdrawal has been made";
-  //     transactions.transfers = await Transfer.getWalletTransfers(id) ?? "No transfer has been made";
-  //     sendResponse(res, 200, "Here you go.", [transactions]);
-  //   }catch (e){
-  //     console.log(e);
-  //     sendResponse(res, 500, "An error occurred.");
-  //   }
-  // }
+  async getTransactionsAsPDF(req, res) {
+    const { id } = req.params;
+
+    const transactions = {};
+
+    try{
+      transactions.deposits = await Deposit.getWalletDeposits(id) ?? "No deposits has been made";
+      transactions.withdraws = await Withdrawal.getWalletWithdrawals(id) ?? "No withdrawal has been made";
+      transactions.transfers = await Transfer.getWalletTransfers(id) ?? "No transfer has been made";
+
+      const stream = res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment;filename=Transactions-history.pdf'
+      });
+
+      generatePDF(JSON.stringify(transactions, '', "\n"),
+          (chunk) => stream.write(chunk),
+          () => stream.end()
+      );
+      
+    }catch (e){
+      console.log(e);
+      sendResponse(res, 500, "An error occurred.");
+    }
+  }
+
 
 }
 
