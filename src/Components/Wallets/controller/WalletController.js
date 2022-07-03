@@ -73,13 +73,10 @@ class WalletController {
   async getTransactions(req,res) {
     const { id } = req.params;
 
-    const transactions = {};
+    let transactions = {};
 
     try{
-      transactions.deposits = await Deposit.getWalletDeposits(id) ?? "No deposits has been made";
-      transactions.withdraws = await Withdrawal.getWalletWithdrawals(id) ?? "No withdrawal has been made";
-      transactions.transfers = await Transfer.getWalletTransfers(id) ?? "No transfer has been made";
-
+      transactions = await getAllTransactions(transactions, id);
       logger.info("User's transactions fetched");
 
       sendResponse(res, 200, "Here you go.", [transactions]);
@@ -92,12 +89,11 @@ class WalletController {
   async getTransactionsAsPDF(req, res) {
     const { id } = req.params;
 
-    const transactions = {};
+    let transactions = {};
 
     try{
-      transactions.deposits = await Deposit.getWalletDeposits(id) ?? "No deposits has been made";
-      transactions.withdraws = await Withdrawal.getWalletWithdrawals(id) ?? "No withdrawal has been made";
-      transactions.transfers = await Transfer.getWalletTransfers(id) ?? "No transfer has been made";
+
+      transactions = await getAllTransactions(transactions, id);
 
       const stream = res.writeHead(200, {
         'Content-Type': 'application/pdf',
@@ -108,7 +104,7 @@ class WalletController {
           (chunk) => stream.write(chunk),
           () => stream.end()
       );
-      
+
     }catch (e){
       console.log(e);
       sendResponse(res, 500, "An error occurred.");
@@ -117,5 +113,15 @@ class WalletController {
 
 
 }
+
+async function getAllTransactions(transactions, walletID) {
+
+  transactions.deposits = await Deposit.getWalletDeposits(walletID) ?? "No deposits has been made";
+  transactions.withdraws = await Withdrawal.getWalletWithdrawals(walletID) ?? "No withdrawal has been made";
+  transactions.transfers = await Transfer.getWalletTransfers(walletID) ?? "No transfer has been made";
+
+  return transactions;
+}
+
 
 module.exports = WalletController;
