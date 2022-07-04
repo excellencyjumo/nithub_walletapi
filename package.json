@@ -2,10 +2,10 @@
   "name": "wallet_api",
   "version": "1.0.0",
   "description": "to manage wallet account for users",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,18 @@
   "author": "adejumo",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "pdfkit": "^0.13.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.8.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1",
     "nodemon": "^2.0.16"
   }
 }

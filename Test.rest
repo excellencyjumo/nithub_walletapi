@@ -1,0 +1,129 @@
+## Create a new user
+POST http://localhost:8080/auth/users
+Content-Type: application/json
+
+{
+  "firstName": "Comrade",
+  "lastName": "Faraday",
+  "email": "comrade@gmail.com",
+  "password": "mypassword1092"
+}
+
+### login user
+POST http://localhost:8080/auth/users/login
+Content-Type: application/json
+
+{
+  "email": "devbotprogrammer@gmail.com",
+  "password": "mypassword"
+}
+
+### Create a wallet
+POST http://localhost:8080/wallets
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMWUwLTQxMTktNGNkNS1hNWJkLTc4ODUxY2U5ZDY4OSIsImlhdCI6MTY1Njc3MDg4OSwiZXhwIjoxNjU3Mzc1Njg5fQ.oQ9UKgXQB5hhC2ubuRV1kEzyZukzCGxkvR-cpsv3qIk
+
+{
+  "currency": "USD"
+}
+
+
+### Get a user wallet
+GET http://localhost:8080/wallets
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMWUwLTQxMTktNGNkNS1hNWJkLTc4ODUxY2U5ZDY4OSIsImlhdCI6MTY1Njc3MDg4OSwiZXhwIjoxNjU3Mzc1Njg5fQ.oQ9UKgXQB5hhC2ubuRV1kEzyZukzCGxkvR-cpsv3qIk
+
+
+### Get a wallet by id
+GET http://localhost:8080/wallets/386282e8-51b9-4d68-9d7f-32ebcb8ecda9
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMWUwLTQxMTktNGNkNS1hNWJkLTc4ODUxY2U5ZDY4OSIsImlhdCI6MTY1Njc3MDg4OSwiZXhwIjoxNjU3Mzc1Njg5fQ.oQ9UKgXQB5hhC2ubuRV1kEzyZukzCGxkvR-cpsv3qIk
+
+
+
+### Delete a user wallet by id
+DELETE http://localhost:8080/wallets/d20b1595-4f17-44e0-92d7-a530db27a8e4
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMWUwLTQxMTktNGNkNS1hNWJkLTc4ODUxY2U5ZDY4OSIsImlhdCI6MTY1Njc3MDg4OSwiZXhwIjoxNjU3Mzc1Njg5fQ.oQ9UKgXQB5hhC2ubuRV1kEzyZukzCGxkvR-cpsv3qIk
+
+
+### Make deposit
+POST http://localhost:8080/wallets/86c52191-d187-4afe-9047-c7639d5cd160/deposits
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+{
+  "amount": 200000
+}
+
+### Get a deposits
+GET http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/deposits
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Get a particular deposit
+GET http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/deposits/3740f89c-9727-4074-8dfb-b1061372691f
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Make withdrawal
+POST http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/withdrawals
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+{
+  "amount": 1000
+}
+
+### Get all withdrawals
+GET http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/withdrawals
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+### Get a withdrawal
+GET http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/withdrawals/34d92564-e1e0-4e95-8674-b1da87038e4b
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Make transfer
+POST http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/transfers
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+{
+  "amount": 100,
+  "destination": "25a95667-2e18-4ee5-a2ff-1d20eae2364b"
+}
+
+### Get all transfers
+GET http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/transfers
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Get transfer
+GET http://localhost:8080/wallets/6f044375-e7be-4e37-ad6a-64126eb41cd3/transfers/5ddeeae1-de45-4ebc-95cc-c521aaaaa35c
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Get wallet transactions
+GET http://localhost:8080/wallets/86c52191-d187-4afe-9047-c7639d5cd160/transactions
+Content-Type: application/json
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Download transaction history
+GET http://localhost:8080/wallets/86c52191-d187-4afe-9047-c7639d5cd160/transactions/download
+#Content-Type: application/pdf
+x-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
+
+
+### Faraday x-auth-token
+### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMWUwLTQxMTktNGNkNS1hNWJkLTc4ODUxY2U5ZDY4OSIsImlhdCI6MTY1Njc3MDg4OSwiZXhwIjoxNjU3Mzc1Njg5fQ.oQ9UKgXQB5hhC2ubuRV1kEzyZukzCGxkvR-cpsv3qIk
+
+### Damola x-auth-token
+### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MDFmOWM1LTg4NzctNGZkNS04ZDAzLWJiNzNmNGQyMTg3YiIsImlhdCI6MTY1Njc3NTk1NSwiZXhwIjoxNjU3MzgwNzU1fQ.xhaj9fXu2YmWmnrQakvTND9THfxOU9MGTvKkr5QK2xs
